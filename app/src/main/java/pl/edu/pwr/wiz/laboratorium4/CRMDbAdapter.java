@@ -93,9 +93,7 @@ public class CRMDbAdapter {
         Cursor mCursor = null;
 
         if (inputText == null || inputText.length () == 0) {
-            mCursor = mDb.query(Klienci.TABLE_NAME, new String[] {Klienci._ID, Klienci.COLUMN_NAME_NAZWA,
-                    Klienci.COLUMN_NAME_ADRES, Klienci.COLUMN_NAME_TELEFON}, null, null, null, null, orderBy, null);
-
+            mCursor = fetchAllClients();
         } else {
             mCursor = mDb.query(Klienci.TABLE_NAME, new String[] {Klienci._ID, Klienci.COLUMN_NAME_NAZWA,
                     Klienci.COLUMN_NAME_ADRES, Klienci.COLUMN_NAME_TELEFON},
