@@ -2,7 +2,7 @@
     <string name="app_name">Laboratorium 4</string>
     <string name="title_activity_main">Lista klientów</string>
 
-    <string name="hint">Wyszukaj...</string>
+    <string name="hint">Szukaj klientów</string>
     <string name="id">ID: </string>
     <string name="nazwa">Nazwa: </string>
     <string name="adres">Adres: </string>
@@ -10,4 +10,5 @@
 
     <string name="order_id_asc">Sortuj po ID rosnąco</string>
     <string name="order_id_desc">Sortuj po ID malejąco</string>
+    <string name="search">Wyszukaj</string>
 </resources>

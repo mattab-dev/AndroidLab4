@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="6dip" >
@@ -9,7 +10,7 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:text="@string/id"
             android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -20,14 +21,14 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/textView1"
             android:layout_alignBottom="@id/textView1"
-            android:layout_toRightOf="@id/textView1"
-            android:text="TextView" />
+            android:layout_toEndOf="@id/textView1"
+            tools:text="TextView" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textView1"
+            android:layout_alignStart="@+id/textView1"
             android:layout_below="@+id/textView1"
             android:text="@string/nazwa"
             android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -38,26 +39,26 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/textView2"
             android:layout_alignBottom="@id/textView2"
-            android:layout_toRightOf="@id/textView2"
-            android:text="TextView" />
+            android:layout_toEndOf="@id/textView2"
+            tools:text="TextView" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textView2"
-            android:layout_below="@+id/textView2"
+            android:layout_alignStart="@+id/textView2"
+            android:layout_below="@+id/nazwa"
             android:text="@string/adres"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-     
+
         <TextView
             android:id="@+id/adres"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/textView3"
             android:layout_alignBottom="@id/textView3"
-            android:layout_toRightOf="@id/textView3"
-            android:text="TextView" />
+            android:layout_toEndOf="@id/textView3"
+            tools:text="TextView" />
 
         <!-- TODO dodać textview na telefon -->
 </RelativeLayout>

@@ -4,6 +4,12 @@
     tools:context="pl.edu.pwr.wiz.laboratorium3.MainActivity">
 
     <item
+        android:id="@+id/app_bar_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/search"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/order_id_asc"
         android:title="@string/order_id_asc"
         app:showAsAction="never"/>

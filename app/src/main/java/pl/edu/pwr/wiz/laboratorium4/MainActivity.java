@@ -1,26 +1,28 @@
 package pl.edu.pwr.wiz.laboratorium4;
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.SearchView;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     private CRMDbAdapter dbHelper;
     private SimpleCursorAdapter dataAdapter;
+    private String SearchQuery = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +40,42 @@ public class MainActivity extends AppCompatActivity {
         // Dodajemy przykladowe dane
         dbHelper.insertSomeClients();
 
+//        handleIntent(getIntent());
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume");
+        super.onResume();
+
         // Tworzymy listę na podstawie danych w bazie SQLite
         displayListView();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Log.d(TAG, "onNewIntent");
+
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            SearchQuery = intent.getStringExtra(SearchManager.QUERY);
+        }
+
+        Log.d(TAG, "handleIntent, SearchQuery: " + SearchQuery);
+    }
+
     private void displayListView() {
-        Cursor cursor = dbHelper.fetchAllClients();
+        Cursor cursor;
+
+        if(SearchQuery.isEmpty()) {
+            cursor = dbHelper.fetchAllClients();
+        } else {
+            cursor = dbHelper.fetchClientsByName(SearchQuery);
+        }
 
         // Kolumny do podpięcia
         String[] columns = new String[] {
@@ -71,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Podpinamy adapter do listy
         ListView listView = (ListView) findViewById(R.id.listaKlientow);
-        // Assign adapter to ListView
         listView.setAdapter(dataAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,35 +117,43 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), telefon, Toast.LENGTH_SHORT).show();
             }
         });
-
-
-        EditText myFilter = (EditText) findViewById(R.id.filter);
-        myFilter.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-            }
-
-            public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start,
-                                      int before, int count) {
-                dataAdapter.getFilter().filter(s.toString());
-            }
-        });
-
-        dataAdapter.setFilterQueryProvider(new FilterQueryProvider() {
-            public Cursor runQuery(CharSequence constraint) {
-                return dbHelper.fetchClientsByName(constraint.toString());
-
-                /* TODO zmienić sposób wyszukiwania, aby uwzględniało adres */
-            }
-        });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        // Ustawiamy wyszukiwarkę
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        final SearchView searchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setQuery(SearchQuery, false);
+        searchView.setIconifiedByDefault(true);
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                Log.d(TAG, "searchView.onClose event launched");
+
+                SearchQuery = "";
+                displayListView();
+                return false;
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                searchView.clearFocus();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
         return true;
     }
 
