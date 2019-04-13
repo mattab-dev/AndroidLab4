@@ -19,4 +19,12 @@
         app:showAsAction="never"/>
 
     <!-- TODO dodac opcje sortowania po nazwie -->
+    <item android:id="@+id/order_name_asc"
+        android:title="@string/sortuj_po_nazwie_rosn_co"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/order_name_desc"
+        android:title="@string/sortuj_po_nazwie_malej_co"
+        app:showAsAction="never" />
+
 </menu>

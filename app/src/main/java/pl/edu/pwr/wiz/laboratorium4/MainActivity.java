@@ -74,23 +74,25 @@ public class MainActivity extends AppCompatActivity {
         if(SearchQuery.isEmpty()) {
             cursor = dbHelper.fetchAllClients();
         } else {
-            cursor = dbHelper.fetchClientsByName(SearchQuery);
+            cursor = dbHelper.fetchClientsByAddressAndName(SearchQuery);
         }
 
         // Kolumny do podpięcia
         String[] columns = new String[] {
                 CRMDbAdapter.Klienci._ID,
                 CRMDbAdapter.Klienci.COLUMN_NAME_NAZWA,
-                CRMDbAdapter.Klienci.COLUMN_NAME_ADRES
+                CRMDbAdapter.Klienci.COLUMN_NAME_ADRES,
                 // TODO dodać kolumnę z telefonem
+                CRMDbAdapter.Klienci.COLUMN_NAME_TELEFON
         };
 
         // ID zasobów z pliku client_info.xml
         int[] to = new int[] {
                 R.id.id,
                 R.id.nazwa,
-                R.id.adres
+                R.id.adres,
                 // TODO dodać kolumnę z telefonem
+                R.id.telefon
         };
 
         // Tworzymy adapter z kursorem wskazującym na nasze dane
@@ -171,6 +173,16 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             /* TODO: Dodać obsługę sortowania po nazwie */
+
+            case R.id.order_name_asc:
+                dbHelper.setOrderBy(CRMDbAdapter.Klienci.COLUMN_NAME_NAZWA + " ASC");
+                displayListView();
+                return true;
+
+            case R.id.order_name_desc:
+                dbHelper.setOrderBy(CRMDbAdapter.Klienci.COLUMN_NAME_NAZWA + " DESC");
+                displayListView();
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

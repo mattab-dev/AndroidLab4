@@ -11,4 +11,7 @@
     <string name="order_id_asc">Sortuj po ID rosnąco</string>
     <string name="order_id_desc">Sortuj po ID malejąco</string>
     <string name="search">Wyszukaj</string>
+    <string name="numer_telefonu">Telefon:</string>
+    <string name="sortuj_po_nazwie_malej_co">Sortuj po nazwie malejąco</string>
+    <string name="sortuj_po_nazwie_rosn_co">Sortuj po nazwie rosnąco</string>
 </resources>

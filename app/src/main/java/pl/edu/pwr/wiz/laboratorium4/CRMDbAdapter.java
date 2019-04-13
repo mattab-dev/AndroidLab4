@@ -109,6 +109,27 @@ public class CRMDbAdapter {
     }
 
     /* TODO - dodać funkcję do wyszukiwania po adresie i nazwie równocześnie */
+    public Cursor fetchClientsByAddressAndName(String input) throws SQLException {
+        Log.w(TAG, "Szukamy po adresie i nazwie: " + input);
+
+        Cursor cursor = null;
+
+        if(input.isEmpty()) {
+            cursor = fetchAllClients();
+        } else {
+            cursor = mDb.query(Klienci.TABLE_NAME, new String[] {Klienci._ID, Klienci.COLUMN_NAME_NAZWA,
+            Klienci.COLUMN_NAME_ADRES, Klienci.COLUMN_NAME_TELEFON},
+                    Klienci.COLUMN_NAME_NAZWA + " like '%" + input + "%' or " +
+                    Klienci.COLUMN_NAME_ADRES + " like '%" + input + "%'",
+                    null, null, null, null, null);
+        }
+
+        if(cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        return cursor;
+    }
 
     public Cursor fetchAllClients() {
         Cursor mCursor = mDb.query(Klienci.TABLE_NAME, new String[]{Klienci._ID, Klienci.COLUMN_NAME_NAZWA,
